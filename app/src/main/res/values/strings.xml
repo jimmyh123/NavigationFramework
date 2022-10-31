@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NavigationFramework</string>
+    <string name="section_one">Section One</string>
+    <string name="section_two">Section Two</string>
+    <string name="section_three">Section Three</string>
 </resources>

@@ -1,57 +1,40 @@
-package com.jimmyh123.navigationframework.ui.presentation
+package com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.CancelButton
+import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.NextPageButton
 import com.jimmyh123.navigationframework.ui.theme.NavigationFrameworkTheme
 
 @Composable
-fun StartScreen(
-    onNextButtonClicked: () -> Unit
+fun MiddleScreen(
+    onNextButtonClicked: () -> Unit,
+    onCancelButtonClicked: () -> Unit
 ) {
     Column(){
-        Text("Start Screen")
+        Text("Middle Screen")
         NextPageButton(onNextButtonClicked)
-    }
-}
-
-
-@Composable
-fun NextPageButton(onClick: () -> Unit) {
-
-    Button(
-        onClick = onClick,
-    ){
-        Text("Next")
-    }
-}
-
-@Composable
-fun CancelButton(onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-    ){
-        Text("Cancel")
+        CancelButton(onCancelButtonClicked)
     }
 }
 
 
 @Preview
 @Composable
-fun PreviewStartScreen() {
+fun previewMiddleScreen() {
 
     NavigationFrameworkTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            StartScreen {  }
+//            MiddleScreen{}
         }
     }
 }

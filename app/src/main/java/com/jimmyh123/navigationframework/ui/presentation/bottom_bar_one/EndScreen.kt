@@ -1,4 +1,4 @@
-package com.jimmyh123.navigationframework.ui.presentation
+package com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

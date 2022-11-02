@@ -1,7 +1,6 @@
 package com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -9,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.jimmyh123.navigationframework.ui.theme.NavigationFrameworkTheme
 
 @Composable
@@ -17,8 +17,17 @@ fun StartScreen(
 ) {
     Column(){
         Text("Start Screen")
-        NextPageButton(onNextButtonClicked)
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            NextPageButton(onNextButtonClicked)
+        }
     }
+
+
 }
 
 

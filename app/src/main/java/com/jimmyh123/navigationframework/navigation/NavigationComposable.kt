@@ -5,20 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,11 +30,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.*
 import com.jimmyh123.navigationframework.ui.MainViewModel
 import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.EndScreen
 import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.MiddleScreen
 import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.StartScreen
 import com.jimmyh123.navigationframework.R
+import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenOne
+import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenThree
+import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenTwo
+import kotlinx.coroutines.launch
 
 @Composable
 fun TopBarComposable(
@@ -58,6 +64,7 @@ fun TopBarComposable(
     )
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun NavigationComposable(
     modifier: Modifier = Modifier,
@@ -69,6 +76,10 @@ fun NavigationComposable(
     val currentScreen = ScreenNavigationLocations.valueOf(
     navBackStackEntry?.destination?.route ?: ScreenNavigationLocations.SectionOne.name
     )
+
+    // tabs
+    val tabs = listOf(TabItem.TabScreenOne, TabItem.TabScreenTwo, TabItem.TabScreenThree)
+    val pagerState = rememberPagerState()
 
     Scaffold(
         topBar = {
@@ -87,7 +98,6 @@ fun NavigationComposable(
                 items.forEach{ screen ->
                     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
                     BottomNavigationItem(
-//                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                         icon = {
                                Column(horizontalAlignment = CenterHorizontally){
                                    if(screen.badgeCount > 0) {
@@ -130,6 +140,12 @@ fun NavigationComposable(
             }
         }
     ) { innerPadding ->
+
+//        Column(modifier = Modifier.padding(innerPadding)) {
+//            Tabs(tabs = tabs, pagerState = pagerState)
+//            TabsContent(tabs = tabs, pagerState = pagerState)
+//        }
+
         NavHost(
             navController = navController,
             startDestination = Screen.SectionOne.route,
@@ -138,7 +154,10 @@ fun NavigationComposable(
 
             // bottom bar item 1 -
             composable(Screen.SectionOne.route) {
-                StartScreen( onNextButtonClicked = { navController.navigate(ScreenNavigationLocations.Middle.name) } )
+                Column() {
+                    Tabs(tabs = tabs, pagerState = pagerState)
+                    TabsContent(tabs = tabs, pagerState = pagerState)
+                }
             }
             composable(route = ScreenNavigationLocations.Middle.name) {
                 MiddleScreen(
@@ -152,12 +171,49 @@ fun NavigationComposable(
 
             // bottom bar item 2
             composable(Screen.SectionTwo.route) {
-                EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })            }
+                StartScreen( onNextButtonClicked = { navController.navigate(ScreenNavigationLocations.Middle.name) } )            }
 
             // bottom bar item 3
             composable(Screen.SectionThree.route) {
                 EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun TabsContent(tabs: List<TabItem>, pagerState: PagerState) {
+    HorizontalPager(state = pagerState, count = tabs.size) { page ->
+        tabs[page].screen()
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Tabs(tabs: List<TabItem>, pagerState: PagerState) {
+    val scope = rememberCoroutineScope()
+
+    TabRow(
+        selectedTabIndex = pagerState.currentPage,
+        backgroundColor = colorResource(id = R.color.purple_500),
+        contentColor = Color.White,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+            )
+        }) {
+        tabs.forEachIndexed { index, tab ->
+            Tab(
+                icon = { Icon(imageVector = tab.icon, contentDescription = tab.title) },
+                text = { Text(tab.title) },
+                selected = pagerState.currentPage == index,
+                onClick = {
+                    scope.launch {
+                        pagerState.animateScrollToPage(index)
+                    }
+                },
+            )
         }
     }
 }
@@ -176,8 +232,8 @@ sealed class Screen(
     val badgeCount: Int = 0
 ) {
     object SectionOne : Screen("SectionOne", R.string.section_one,Icons.Default.Home,0)
-    object SectionTwo : Screen("SectionTwo", R.string.section_two, Icons.Default.ShoppingCart, 5)
-    object SectionThree : Screen("SectionThree", R.string.section_three, Icons.Default.Favorite,0)
+    object SectionTwo : Screen("SectionTwo", R.string.section_two, Icons.Default.Favorite, 0)
+    object SectionThree : Screen("SectionThree", R.string.section_three, Icons.Default.ShoppingCart,12)
 }
 
 val items = listOf(
@@ -194,3 +250,14 @@ enum class ScreenNavigationLocations(){
     Middle,
     End
 }
+
+// define tab navigation
+typealias ComposableFun = @Composable () -> Unit
+sealed class TabItem(val icon: ImageVector, var title: String, var screen: ComposableFun) {
+    object TabScreenOne : TabItem(Icons.Default.Email, "Tab One", { TabScreenOne() })
+    object TabScreenTwo : TabItem(Icons.Default.Edit, "Tab Two", { TabScreenTwo() })
+    object TabScreenThree : TabItem(Icons.Default.Call, "Tab Three", { TabScreenThree() })
+}
+//TabItem(Icons.Default.Email,
+//TabItem(Icons.Default.Edit,
+//TabItem(Icons.Default.Call

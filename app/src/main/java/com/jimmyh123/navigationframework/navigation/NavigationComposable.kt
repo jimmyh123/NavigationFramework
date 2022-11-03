@@ -32,10 +32,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.*
 import com.jimmyh123.navigationframework.ui.MainViewModel
-import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.EndScreen
-import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.MiddleScreen
-import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.StartScreen
+//import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.EndScreen
+//import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.MiddleScreen
+//import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.StartScreen
 import com.jimmyh123.navigationframework.R
+import com.jimmyh123.navigationframework.ui.presentation.EndScreen
+import com.jimmyh123.navigationframework.ui.presentation.MiddleScreen
+import com.jimmyh123.navigationframework.ui.presentation.StartScreen
 import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenOne
 import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenThree
 import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenTwo
@@ -140,12 +143,6 @@ fun NavigationComposable(
             }
         }
     ) { innerPadding ->
-
-//        Column(modifier = Modifier.padding(innerPadding)) {
-//            Tabs(tabs = tabs, pagerState = pagerState)
-//            TabsContent(tabs = tabs, pagerState = pagerState)
-//        }
-
         NavHost(
             navController = navController,
             startDestination = Screen.SectionOne.route,

@@ -10,16 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,13 +32,10 @@ import com.jimmyh123.navigationframework.ui.MainViewModel
 //import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.MiddleScreen
 //import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.StartScreen
 import com.jimmyh123.navigationframework.R
-import com.jimmyh123.navigationframework.ui.presentation.EndScreen
-import com.jimmyh123.navigationframework.ui.presentation.MiddleScreen
-import com.jimmyh123.navigationframework.ui.presentation.StartScreen
-import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenOne
-import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenThree
-import com.jimmyh123.navigationframework.ui.presentation.tabs.TabScreenTwo
+import com.jimmyh123.navigationframework.ui.presentation.*
 import kotlinx.coroutines.launch
+
+private const val TAG = "NavigationComposable"
 
 @Composable
 fun TopBarComposable(
@@ -141,6 +134,15 @@ fun NavigationComposable(
                     )
                 }
             }
+        },
+        floatingActionButton = {
+            val currentDestination = navBackStackEntry?.destination
+            val sectionTwoDestinations = listOf("SectionTwo","Start","Middle","End")
+//            Log.i(TAG,currentDestination.toString())
+            if (currentDestination?.route==Screen.SectionOne.route){
+                AddTabScreenFab(onClick = { navController.navigate(ScreenNavigationLocations.fabScreenOne.name) })
+            }
+            if (currentDestination?.route in sectionTwoDestinations){AddButtonNavScreenFab()}
         }
     ) { innerPadding ->
         NavHost(
@@ -173,6 +175,11 @@ fun NavigationComposable(
             // bottom bar item 3
             composable(Screen.SectionThree.route) {
                 EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })
+            }
+
+            // fab navigation 1
+            composable(ScreenNavigationLocations.fabScreenOne.name) {
+                FabScreenOne()
             }
         }
     }
@@ -245,7 +252,8 @@ enum class ScreenNavigationLocations(){
     SectionThree,
     Start,
     Middle,
-    End
+    End,
+    fabScreenOne
 }
 
 // define tab navigation
@@ -255,6 +263,4 @@ sealed class TabItem(val icon: ImageVector, var title: String, var screen: Compo
     object TabScreenTwo : TabItem(Icons.Default.Edit, "Tab Two", { TabScreenTwo() })
     object TabScreenThree : TabItem(Icons.Default.Call, "Tab Three", { TabScreenThree() })
 }
-//TabItem(Icons.Default.Email,
-//TabItem(Icons.Default.Edit,
-//TabItem(Icons.Default.Call
+

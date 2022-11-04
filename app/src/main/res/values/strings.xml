@@ -3,4 +3,21 @@
     <string name="section_one">Section One</string>
     <string name="section_two">Section Two</string>
     <string name="section_three">Section Three</string>
+    <string name="photo_info_maldives">Beach with palm tree</string>
+    <string name="beach_with_palm_tree">Beach with palm tree</string>
+    <string name="beach_with_rocks">Beach with rocks</string>
+    <string name="bar_on_the_water">Bar on the water</string>
+    <string name="beach_with_waves">Beach with waves</string>
+
+    <string name="cat_hiding_face">Cat hiding face</string>
+    <string name="green_eyed_cat">Green-eyed cat</string>
+    <string name="group_of_cats">Group of cats</string>
+    <string name="white_cat">White cat</string>
+
+    <string name="pair_of_dogs">pair of dogs</string>
+    <string name="dog_in_forest">Dog in the forest</string>
+    <string name="close_up_dog">Close up photo of small dog</string>
+    <string name="dog_by_water">Dog next to the water</string>
+    <string name="dog_in_cup">Polka-dot cup holding a dog</string>
+    <string name="dog_on_rug">Dog resting on a rug</string>
 </resources>

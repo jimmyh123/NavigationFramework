@@ -32,6 +32,7 @@ import com.jimmyh123.navigationframework.ui.MainViewModel
 //import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.MiddleScreen
 //import com.jimmyh123.navigationframework.ui.presentation.bottom_bar_one.StartScreen
 import com.jimmyh123.navigationframework.R
+import com.jimmyh123.navigationframework.data.PhotoDatasource
 import com.jimmyh123.navigationframework.ui.presentation.*
 import kotlinx.coroutines.launch
 
@@ -174,7 +175,8 @@ fun NavigationComposable(
 
             // bottom bar item 3
             composable(Screen.SectionThree.route) {
-                EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })
+//                EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })
+                PhotoGrid(photoList = PhotoDatasource().loadPhotos())
             }
 
             // fab navigation 1

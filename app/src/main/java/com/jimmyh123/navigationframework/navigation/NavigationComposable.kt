@@ -141,7 +141,7 @@ fun NavigationComposable(
             val sectionTwoDestinations = listOf("SectionTwo","Start","Middle","End")
 //            Log.i(TAG,currentDestination.toString())
             if (currentDestination?.route==Screen.SectionOne.route){
-                AddTabScreenFab(onClick = { navController.navigate(ScreenNavigationLocations.fabScreenOne.name) })
+                AddTabScreenFab(onClick = { navController.navigate(ScreenNavigationLocations.FabScreenOne.name) })
             }
             if (currentDestination?.route in sectionTwoDestinations){AddButtonNavScreenFab()}
         }
@@ -175,12 +175,11 @@ fun NavigationComposable(
 
             // bottom bar item 3
             composable(Screen.SectionThree.route) {
-//                EndScreen(onCancelButtonClicked = { navigateBackToStart(navController) })
-                PhotoGrid(photoList = PhotoDatasource().loadPhotos())
+                PhotoGrid(photoList = PhotoDatasource().loadPhotos(),onPhotoCardClicked = {})
             }
 
             // fab navigation 1
-            composable(ScreenNavigationLocations.fabScreenOne.name) {
+            composable(ScreenNavigationLocations.FabScreenOne.name) {
                 FabScreenOne()
             }
         }
@@ -255,7 +254,7 @@ enum class ScreenNavigationLocations(){
     Start,
     Middle,
     End,
-    fabScreenOne
+    FabScreenOne
 }
 
 // define tab navigation

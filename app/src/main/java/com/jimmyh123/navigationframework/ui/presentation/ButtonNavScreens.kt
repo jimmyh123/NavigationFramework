@@ -3,8 +3,6 @@ package com.jimmyh123.navigationframework.ui.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,11 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jimmyh123.navigationframework.ui.theme.Desire
-import com.jimmyh123.navigationframework.ui.theme.NavigationFrameworkTheme
 
 @Composable
 fun StartScreen(
@@ -99,7 +95,7 @@ fun EndScreen(onCancelButtonClicked: () -> Unit) {
 }
 
 @Composable
-fun ButtonNavScreenText(screenTitleText: String, modifier: Modifier) {
+fun ButtonNavScreenText(screenTitleText: String, modifier: Modifier = Modifier) {
     Text(
         text = screenTitleText,
         fontWeight = FontWeight.Bold,
@@ -135,48 +131,5 @@ fun CancelButton(
         enabled = enabled
     ){
         Text("Cancel")
-    }
-}
-
-
-@Preview
-@Composable
-fun StartScreenPreview() {
-
-    NavigationFrameworkTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            StartScreen {  }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun MiddleScreenPreview() {
-
-    NavigationFrameworkTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            MiddleScreen(onNextButtonClicked = {}, onCancelButtonClicked = {})
-        }
-    }
-}
-
-@Preview
-@Composable
-fun EndScreenPreview() {
-
-    NavigationFrameworkTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            EndScreen{}
-        }
     }
 }

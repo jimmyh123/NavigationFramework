@@ -1,6 +1,7 @@
 package com.jimmyh123.navigationframework.ui.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,6 +18,7 @@ import com.jimmyh123.navigationframework.model.PhotoDetail
 @Composable
 fun PhotoGrid(
     photoList: List<PhotoDetail>,
+    onPhotoCardClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -24,7 +26,7 @@ fun PhotoGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
     ) {
         items(photoList.size) { photo ->
-            PhotoCard(photoList[photo])
+            PhotoCard(photoList[photo], onPhotoCardClicked)
         }
     }
 }
@@ -32,10 +34,16 @@ fun PhotoGrid(
 @Composable
 fun PhotoCard(
     photo: PhotoDetail,
+    onclick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .clickable(
+                enabled = true,
+                onClick = onclick
+            ),
         elevation = 4.dp
     ){
         Column {
@@ -47,10 +55,18 @@ fun PhotoCard(
                     .height(194.dp),
                 contentScale = ContentScale.Crop
             )
-            Text(
-                text = stringResource(id = photo.stringResourceId),
-                modifier = Modifier.padding(16.dp),
-            )
+            PhotoText(photo.stringResourceId)
         }
     }
+}
+
+@Composable
+fun PhotoText(
+    text: Int,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(id = text),
+        modifier = Modifier.padding(16.dp),
+    )
 }
